@@ -38,14 +38,15 @@ class Triangle {
     function getTriangle(a, b, c) {
         try {return new Triangle(a, b, c);
         } catch {
-            const triangle = new Triangle(a, b, c);
-            
-            triangle.getArea = () => {
-                console.log('Ошибка! Треугольник не существует');
-            } 
-            triangle.getPerimeter = () => {
-                console.log('Ошибка! Треугольник не существует');
+            const triangle = {
+                getArea() {
+                    return 'Ошибка! Треугольник не существует';
+                },
+                getPerimeter() {
+                    return 'Ошибка! Треугольник не существует'; 
+                }
             }
+            return triangle;            
         };                
     } 
     
