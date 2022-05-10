@@ -37,11 +37,10 @@ class AlarmClock {
     }
     
     start() {
-        const currentTime = this.getCurrentFormattedTime();
-        function checkClock(alarmItem) {
-            if (currentTime === alarmItem.time) {
-                alarmItem.callback(); 
-            }            
+        let checkClock = (alarmItem) => {
+            if (this.getCurrentFormattedTime() === alarmItem.time) {
+                alarmItem.callback();
+            }
         }
         if (!this.timerId) {
             const newInterval = 1000;
@@ -74,15 +73,15 @@ class AlarmClock {
         console.log(`Текущее время: ${phoneAlarm.getCurrentFormattedTime()}`);
         
         //добавление звонка с выводом в консоль 3 раза
-        phoneAlarm.addClock("08:48", () => {
+        phoneAlarm.addClock("21:00", () => {
             for (let i = 0; i < 3; i++) { console.log("Подъем"); phoneAlarm.stop() }
         }, 1);
         
-        phoneAlarm.addClock("08:50", () => {
+        phoneAlarm.addClock("21:02", () => {
             console.log("Подъем уже!"); phoneAlarm.removeClock(2)
         }, 2);
         
-        phoneAlarm.addClock("08:55", () => {
+        phoneAlarm.addClock("21:03", () => {
             console.log("Подъем, давно пора уже"); phoneAlarm.clearAlarms(); phoneAlarm.printAlarms()
         }, 3);
         
