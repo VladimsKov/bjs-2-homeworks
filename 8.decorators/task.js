@@ -30,22 +30,28 @@ function cachingDecoratorNew(func) {
 
 
 function debounceDecoratorNew(func, ms) {
-  let timeout;
+  let timeout, timeoutFlag;
   let flag = false;
   return function(...args) {
+    
+    //синхронный вызов 
     if (!flag) {
       func.apply(this, args);
-      flag = true; 
-      //console.log(`флаг поднят на ${ms} мс\n`);
-      timeout = setTimeout(() => { flag = false; }, ms);
+      flag = true;
+      timeout(timeoutFlag) = setTimeout(() => {
+        flag = false;
+      }, ms);
       return;
     }
     
-    if (flag) {
-      //console.log(`флаг = ${flag} ,не отправлено\n`);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => { flag = false; }, ms);
-    }
+    //асинхронный вызов
+    clearTimeout(timeout);
+    clearTimeout(timeoutFlag);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+      flag = false;      
+    }, ms);    
+    
   }  
 }
 
@@ -56,19 +62,23 @@ function debounceDecorator2(func, ms) {
   function wrapper(...args) {
     wrapper.count += 1;
     //console.log(`Кол-во вызовов: ${wrapper.count}\n`);
+    //синхронный вызов 
     if (!flag) {
       func.apply(this, args);
       flag = true;
-      //console.log(` флаг= ${flag} - поднят на ${ms} мс\n`);
-      timeout = setTimeout(() => { flag = false; }, ms);
+      timeout(timeoutFlag) = setTimeout(() => {
+        flag = false;
+      }, ms);
       return;
     }
     
-    if (flag) {
-      //console.log(`флаг = ${flag} ,не отправлено\n`);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => { flag = false; }, ms);
-    }
+    //асинхронный вызов
+    clearTimeout(timeout);
+    clearTimeout(timeoutFlag);
+    timeout = setTimeout(() => {
+      func.apply(this, args);
+      flag = false;      
+    }, ms);    
   }  
   return wrapper;
 }
