@@ -30,7 +30,7 @@ function cachingDecoratorNew(func) {
 
 
 function debounceDecoratorNew(func, ms) {
-  let timeout, timeoutFlag;
+  let timeout;
   let flag = false;
   return function(...args) {
     
@@ -38,18 +38,13 @@ function debounceDecoratorNew(func, ms) {
     if (!flag) {
       func.apply(this, args);
       flag = true;
-      timeout(timeoutFlag) = setTimeout(() => {
-        flag = false;
-      }, ms);
       return;
     }
     
     //асинхронный вызов
-    clearTimeout(timeout);
-    clearTimeout(timeoutFlag);
+    clearTimeout(timeout);    
     timeout = setTimeout(() => {
-      func.apply(this, args);
-      flag = false;      
+      func.apply(this, args);          
     }, ms);    
     
   }  
@@ -61,27 +56,23 @@ function debounceDecorator2(func, ms) {
   wrapper.count = 0;
   function wrapper(...args) {
     wrapper.count += 1;
-    //console.log(`Кол-во вызовов: ${wrapper.count}\n`);
+    
     //синхронный вызов 
     if (!flag) {
       func.apply(this, args);
       flag = true;
-      timeout(timeoutFlag) = setTimeout(() => {
-        flag = false;
-      }, ms);
       return;
     }
     
     //асинхронный вызов
     clearTimeout(timeout);
-    clearTimeout(timeoutFlag);
     timeout = setTimeout(() => {
-      func.apply(this, args);
-      flag = false;      
+      func.apply(this, args);           
     }, ms);    
   }  
   return wrapper;
 }
+
 /*const sendSignal2 = () => console.log("Сигнал sendSignal2 отправлен");
 const upgradedSendSignal2 = debounceDecorator2(sendSignal2, 2000);
 setTimeout(upgradedSendSignal2); // Сигнал отправлен
